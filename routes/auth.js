@@ -6,13 +6,13 @@ const db = require('monk')('localhost/auth-demo');
 
 const users = db.get('users');
 
-const schema = Joi.object({
+const registerSchema = Joi.object({
     email: Joi.string()
         .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
         .required(),
 
     password: Joi.string()
-        .pattern(new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"))
+        .pattern(new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})"))
         .required(),
 
     password_repeat: Joi.ref('password'),
@@ -22,7 +22,7 @@ const schema = Joi.object({
 
 router.post('/register', async (req, res, next) => {
     try {
-        const value = await schema.validateAsync(req.body);
+        const value = await registerSchema.validateAsync(req.body);
         const doc = await users.findOne({ email: value.email });
         if (!doc) {
             const password_hash = bcrypt.hashSync(value.password, 10);
@@ -30,22 +30,22 @@ router.post('/register', async (req, res, next) => {
                 email: value.email,
                 password: password_hash
             });
-            res.json(user);
+            res.render('login', { email: value.email, password: value.password });
         } else {
             throw new Error('User Already Exists !');
         }
     }
     catch (err) {
-        res.json(err.message);
+        res.render('register', { err: err.message });
     }
 });
 
 router.get('/register', (req, res, next) => {
-    res.render('register')
+    res.render('register', { err: '' });
 });
 
 router.get('/login', (req, res, next) => {
-    res.render('login')
+    res.render('login', { email: '', password: '' });
 });
 
 module.exports = router;
