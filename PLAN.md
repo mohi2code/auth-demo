@@ -1,10 +1,10 @@
 ## Auth Demo
 
 * [ ] Register.
-    * [ ] POST /register.
-        * [ ] validate req body.
-        * [ ] check if user already exists.
-        * [ ] hash the password.
-        * [ ] store user in db.
+    * [x] POST /register.
+        * [x] validate req body.
+        * [x] check if user already exists.
+        * [x] hash the password.
+        * [x] store user in db.
     * [ ] GET /register.
 * [ ] Login.
