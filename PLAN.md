@@ -12,6 +12,7 @@
         * [x] validate req body.
         * [x] check if user exists in db.
         * [x] check if password matches.
-        * [x] generate login token & send it to user.
+        * [ ] set cookie.
     * [x] GET /login.
+* [ ] implement cookies ?
     

@@ -63,8 +63,8 @@ router.post('/login', async (req, res, next) => {
         if (doc) {
             const match = bcrypt.compareSync(value.password, doc.password);
             if (match) {
-                const token = jwt.sign({ email: doc.email }, 'key');
-                res.redirect(`/?token=${token}`);
+                res.cookie('auth', { email: doc.email });
+                res.redirect(`/`);
             } else {
                 throw new Error('Email or password incorrect !');
             }
