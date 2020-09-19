@@ -12,7 +12,7 @@
         * [x] validate req body.
         * [x] check if user exists in db.
         * [x] check if password matches.
-        * [ ] set cookie.
+        * [x] set cookie.
     * [x] GET /login.
-* [ ] implement cookies ?
+* [x] implement cookies ?
     
