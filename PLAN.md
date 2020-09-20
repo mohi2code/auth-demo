@@ -15,4 +15,5 @@
         * [x] set cookie.
     * [x] GET /login.
 * [x] implement cookies ?
-    
+* [x] Implement OAuth.
+* [ ] Logout.

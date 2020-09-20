@@ -23,7 +23,7 @@ async function isLoggedIn(req, res, next) {
         }
     } catch (error) {
         error.status = 401;
-        next(error);
+        res.redirect('/auth/login');
     }
 }
 
