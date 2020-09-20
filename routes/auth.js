@@ -115,4 +115,9 @@ router.get('/login', (req, res, next) => {
     res.render('login', { err: '' });
 });
 
+router.post('/logout', (req, res) => {
+    res.cookie('auth', null, { maxAge: 0 });
+    res.redirect(`/auth/login`);
+});
+
 module.exports = router;

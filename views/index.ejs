@@ -3,13 +3,19 @@
 
 <head>
   <title><%= title %></title>
+  <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 <body>
-  <h1><%= title %></h1>
-  <p>Welcome to <%= title %></p>
-  <p>Go to <a href="/protected/"><strong>PROTECTED</strong></a></p>
+  <div class="container py-5">
+    <h1>Home Page</h1>
+    <p>Just another demo page.</p>
+    <p>Go to the <a href="/protected/"><strong>Protected Page</strong></a></p>
+    <form action="/auth/logout" method="POST">
+      <p>Or <button type="submit" class="btn btn-outline-danger ml-4">Logout</button></p>
+    </form>
+  </div>
 
   <script src="/js/index.js"></script>
 </body>
