@@ -2,7 +2,7 @@ const epxress = require('express');
 const router = epxress.Router();
 const { registerSchema, loginSchema } = require('../services/validation');
 const bcrypt = require('bcrypt');
-const db = require('monk')('localhost/auth-demo');
+const db = require('monk')(process.env.MONGODB_URI);
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2');
 

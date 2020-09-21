@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const db = require('monk')('localhost/auth-demo');
+const db = require('monk')(process.env.MONGODB_URI);
 
 const users = db.get('users');
 
