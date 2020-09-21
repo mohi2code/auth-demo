@@ -1,5 +1,5 @@
 # auth-demo
-A demo project demonstrating authentication flow
+A demo project demonstrating authentication flow, including local authentication and OAuth with Google 
 
 ### Prerequisite
 - Node.js & mongod
