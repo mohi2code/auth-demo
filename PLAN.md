@@ -17,3 +17,4 @@
 * [x] implement cookies ?
 * [x] Implement OAuth.
 * [x] Logout.
+* [ ] Refactor.
