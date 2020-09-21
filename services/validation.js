@@ -6,8 +6,11 @@ module.exports.registerSchema = Joi.object({
         .required(),
 
     password: Joi.string()
-        .pattern(new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})"))
-        .required(),
+        .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"))
+        .required()
+        .error(() => {
+            return new Error('Password must be at least 8 characters long, containing letters, capital letters, numbers and special characters');
+        }),
 
     password_repeat: Joi.ref('password'),
 
@@ -20,7 +23,10 @@ module.exports.loginSchema = Joi.object({
         .required(),
 
     password: Joi.string()
-        .pattern(new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})"))
-        .required(),
+        .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"))
+        .required()
+        .error(() => {
+            return new Error('Password must be at least 8 characters long, containing letters, capital letters, numbers and special characters');
+        }),
 })
     .with('email', 'password');
