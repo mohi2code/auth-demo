@@ -11,7 +11,7 @@ const users = db.get('users');
 passport.use(new GoogleStrategy({
     clientID: '1053675835113-528ojs68fsqnptf7jn5heu6r7bfb5p2s.apps.googleusercontent.com',
     clientSecret: 'UKNN8y4H5YcnDbhjtPOrLt04',
-    callbackURL: "/auth/google/callback"
+    callbackURL: process.env.NODE_ENV == "production" ? "https://auth-local-oauth.herokuapp.com/auth/google/callback" : "/auth/google/callback"
 },
     async function (accessToken, refreshToken, profile, done) {
         const email = profile.email;
