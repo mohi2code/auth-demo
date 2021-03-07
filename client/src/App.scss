@@ -1,0 +1,36 @@
+$background-color-dark: #252329;
+$background-color-light: #FAFAFA;
+$complimentary-color-dark: #393B43;
+$complimentary-color-light: #E0E0E0;
+$border: #BDBDBD;
+
+
+$theme-colors: (
+    "primary": #2F80ED
+);
+
+main.dark {
+    color: $complimentary-color-light;
+    background-color: $background-color-dark;
+
+    .form-control {
+        background-color: $background-color-dark;
+        color: $complimentary-color-light;
+        border: 1px solid $border;
+
+        &:focus {
+            box-shadow: 1px 1px 35px 6px rgba(0,0,88,0.16);
+            -webkit-box-shadow: 1px 1px 35px 6px rgba(0,0,88,0.16);
+            -moz-box-shadow: 1px 1px 35px 6px rgba(0,0,88,0.16);
+            outline: 0 none;
+        }
+    }
+
+    
+
+}
+
+
+@import "~bootstrap/scss/bootstrap";
+
+
