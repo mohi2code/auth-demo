@@ -9,6 +9,15 @@ $theme-colors: (
     "primary": #2F80ED
 );
 
+main {
+    width: 100%;
+    height: 100%;
+
+    .form-control {
+        font-size: 13px;
+    }
+}
+
 main.dark {
     color: $complimentary-color-light;
     background-color: $background-color-dark;
@@ -26,8 +35,16 @@ main.dark {
         }
     }
 
-    
+}
 
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $border;
+    border-radius: 24px;
+    padding: 1.5rem 2rem ;
 }
 
 

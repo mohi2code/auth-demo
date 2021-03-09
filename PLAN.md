@@ -1,11 +1,16 @@
 # Development Plan
 
-* [x] Setup.
+* [ ] Setup.
     * [x] setup express json server.
-    * [x] config .env variables
+    * [x] config .env variables.
+    * [ ] setup mongodb.
     * [x] config error handling & reporting.
     * [x] setup bootstrap.
     * [x] plan dark mode & start setup.
+
+* [ ] configure database.
+    * [ ] migrate db.
+    * [ ] seed db.
 
 * [ ] User can register with new account.
     * [ ] POST /api/register.
@@ -14,6 +19,9 @@
         * [ ] hash the password.
         * [ ] store user in db.
     * [ ] /register screen.
+        * [ ] responsive grid layout.
+        * [ ] dark mode switch button.
+        * [ ] form.
 
 * [ ] User can login.
     * [ ] POST /api/login.
