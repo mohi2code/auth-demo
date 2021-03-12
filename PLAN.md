@@ -8,16 +8,16 @@
     * [x] setup bootstrap.
     * [x] plan dark mode & start setup.
 
-* [ ] configure database.
-    * [ ] migrate db.
-    * [ ] seed db.
+* [x] configure database.
+    * [x] migrate db.
+    * [x] seed db.
 
 * [ ] User can register with new account.
-    * [ ] POST /api/register.
-        * [ ] validate req body.
-        * [ ] check if user already exists.
-        * [ ] hash the password.
-        * [ ] store user in db.
+    * [x] POST /api/register.
+        * [x] validate req body.
+        * [x] check if user already exists.
+        * [x] hash the password.
+        * [x] store user in db.
     * [ ] /register screen.
         * [ ] responsive grid layout.
         * [ ] dark mode switch button.
