@@ -1,9 +1,9 @@
 # Development Plan
 
-* [ ] Setup.
+* [x] Setup.
     * [x] setup express json server.
     * [x] config .env variables.
-    * [ ] setup mongodb.
+    * [x] setup mongodb.
     * [x] config error handling & reporting.
     * [x] setup bootstrap.
     * [x] plan dark mode & start setup.
