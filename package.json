@@ -13,6 +13,7 @@
     "express": "~4.16.1",
     "express-async-handler": "^1.1.4",
     "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
     "monk": "^7.3.3",
     "morgan": "~1.9.1",
     "password-validator": "^5.1.1"

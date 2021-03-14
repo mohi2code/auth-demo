@@ -5,8 +5,9 @@ const { registerSchema } = require('./schemas');
 const db    = require('../db/connection');
 const users = db.get('users');
 const bcrypt = require('bcrypt');
+const jwt    = require('jsonwebtoken');
 
-router.post('/', asyncHandler(async (req, res) => {
+router.post('/register', asyncHandler(async (req, res) => {
     const validated = await registerSchema.validateAsync(req.body);
     const tmp = await users.findOne({ email: validated.email });
     if (tmp) 
@@ -18,6 +19,18 @@ router.post('/', asyncHandler(async (req, res) => {
         hashedPassword
     });
     res.json(user);
+}));
+
+router.post('/login', asyncHandler(async (req, res) => {
+    const validated = await registerSchema.validateAsync(req.body);
+    const user = await users.findOne({ email: validated.email });
+    if (!user || !bcrypt.compareSync(validated.password, user.hashedPassword)) 
+        throw new Error('Invalid username or password');
+
+    const token = await jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+        expiresIn: '1h'
+    });
+    res.json({ token });
 }));
 
 module.exports = router;

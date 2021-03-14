@@ -24,11 +24,11 @@
         * [ ] form.
 
 * [ ] User can login.
-    * [ ] POST /api/login.
-        * [ ] validate req body.
-        * [ ] check if user exists in db.
-        * [ ] check if password matches.
-        * [ ] set cookie / jwt
+    * [x] POST /api/login.
+        * [x] validate req body.
+        * [x] check if user exists in db.
+        * [x] check if password matches.
+        * [x] set cookie / jwt
     * [ ] /login screen.
 
 * [ ] User can login or register with google.

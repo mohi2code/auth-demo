@@ -9,44 +9,6 @@ $theme-colors: (
     "primary": #2F80ED
 );
 
-main {
-    width: 100%;
-    height: 100%;
-
-    .form-control {
-        font-size: 13px;
-    }
-}
-
-main.dark {
-    color: $complimentary-color-light;
-    background-color: $background-color-dark;
-
-    .form-control {
-        background-color: $background-color-dark;
-        color: $complimentary-color-light;
-        border: 1px solid $border;
-
-        &:focus {
-            box-shadow: 1px 1px 35px 6px rgba(0,0,88,0.16);
-            -webkit-box-shadow: 1px 1px 35px 6px rgba(0,0,88,0.16);
-            -moz-box-shadow: 1px 1px 35px 6px rgba(0,0,88,0.16);
-            outline: 0 none;
-        }
-    }
-
-}
-
-.box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid $border;
-    border-radius: 24px;
-    padding: 1.5rem 2rem ;
-}
-
 
 @import "~bootstrap/scss/bootstrap";
 
