@@ -26,7 +26,7 @@
             * [x] handle inputs on submition.
             * [x] handle ajax errors.
 
-* [ ] User can login.
+* [x] User can login.
     * [x] POST /api/login.
         * [x] validate req body.
         * [x] check if user exists in db.
