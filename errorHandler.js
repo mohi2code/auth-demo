@@ -4,6 +4,11 @@ module.exports = (err, req, res, next) => {
             err.status = 400;
             next(err)
             break;
+
+        case 'TokenExpiredError':
+            err.status = 401;
+            next(err);
+            break;
     
         default:
             next(err);

@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css");
+
 $background-color-dark: #252329;
 $background-color-light: #FAFAFA;
 $complimentary-color-dark: #393B43;
@@ -9,6 +11,43 @@ $theme-colors: (
     "primary": #2F80ED
 );
 
+@media (max-width: 575.98px) {
+    .box {
+        border: 0px !important;
+        margin-bottom: auto;
+    }
+
+    footer {
+        margin-top: auto;
+    }
+}
+
+.box {
+    border: 1px solid $border;
+    border-radius: 20px;
+}
+
+/* Adding icons to inputs */
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .icon {
+  position: absolute;
+  padding: .5rem;
+  padding-left: .5rem;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .icon  { left:  0px;}
+.right-addon .icon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
 
 @import "~bootstrap/scss/bootstrap";
 

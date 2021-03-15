@@ -6,9 +6,12 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "bootstrap-icons": "^1.4.0",
     "jquery": "^3.6.0",
     "node-sass": "^5.0.0",
+    "password-validator": "^5.1.1",
     "popper.js": "^1.16.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.1",
@@ -16,6 +19,7 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "validator": "^13.5.2",
     "web-vitals": "^1.1.0"
   },
   "scripts": {

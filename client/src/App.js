@@ -3,28 +3,27 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect
 } from "react-router-dom";
 import Register from './screens/Register';
 import Login from './screens/Login';
 
 function App() {
+  const API_URL = 'http://localhost:3000/api'
+
   return (
     <Router>
-      <main className="dark">
-        <Switch>
+      <Switch>
           <Route path="/register">
-            <Register />
+            <Register API_URL={API_URL}/>
           </Route>
           <Route path="/login">
-            <Login />
+            <Login API_URL={API_URL}/>
           </Route>
           <Route path="/">
             <Redirect to="/register"/>
           </Route>
         </Switch>
-      </main>
     </Router>
   );
 }

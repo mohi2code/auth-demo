@@ -18,7 +18,7 @@ router.post('/register', asyncHandler(async (req, res) => {
         email: validated.email,
         hashedPassword
     });
-    res.json(user);
+    res.json({ email: user.email });
 }));
 
 router.post('/login', asyncHandler(async (req, res) => {
@@ -28,9 +28,16 @@ router.post('/login', asyncHandler(async (req, res) => {
         throw new Error('Invalid username or password');
 
     const token = await jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
-        expiresIn: '1h'
+        expiresIn: '1s'
     });
     res.json({ token });
+}));
+
+router.post('/test', asyncHandler(async (req, res) => {
+    const authorization = req.headers.authorization;
+    const token = authorization.split(' ')[1];
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+    res.json(decoded);
 }));
 
 module.exports = router;

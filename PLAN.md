@@ -12,16 +12,19 @@
     * [x] migrate db.
     * [x] seed db.
 
-* [ ] User can register with new account.
+* [x] User can register with new account.
     * [x] POST /api/register.
         * [x] validate req body.
         * [x] check if user already exists.
         * [x] hash the password.
         * [x] store user in db.
-    * [ ] /register screen.
-        * [ ] responsive grid layout.
-        * [ ] dark mode switch button.
-        * [ ] form.
+    * [x] /register screen.
+        * [x] implement screen design.
+        * [x] configure form submition.
+        * [x] client side validation.
+            * [x] handle input onKeyUp.
+            * [x] handle inputs on submition.
+            * [x] handle ajax errors.
 
 * [ ] User can login.
     * [x] POST /api/login.
@@ -30,6 +33,7 @@
         * [x] check if password matches.
         * [x] set cookie / jwt
     * [ ] /login screen.
+        
 
 * [ ] User can login or register with google.
     * [ ] Passport.js
