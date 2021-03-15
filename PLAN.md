@@ -32,7 +32,7 @@
         * [x] check if user exists in db.
         * [x] check if password matches.
         * [x] set cookie / jwt
-    * [ ] /login screen.
+    * [x] /login screen.
         * [x] implement screen design.
         * [x] configure form submition.
         * [x] client side validation.
