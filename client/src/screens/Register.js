@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios'; 
 import { isValidEmail, isValidPassword } from '../schemas';
@@ -7,6 +8,7 @@ export default function Register({ API_URL }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const history = useHistory();
 
     function submit(e) {
       e.preventDefault();
@@ -23,6 +25,7 @@ export default function Register({ API_URL }) {
       })
         .then(response => {
           console.log(response.data);
+          history.push('/login', { email, password });
         })
         .catch(error => {
           const msg = error.response.data.message;
@@ -82,7 +85,7 @@ export default function Register({ API_URL }) {
                 </Button>
                 <p><small>or continue with these social profiles</small></p>
                 <a href="#" className="mb-3"><img src="/Google.svg"/></a>
-                <p><small>Already a member ? <a href="/login.html">Login</a></small></p>
+                <p><small>Already a member ? <Link to="/login">Login</Link></small></p>
             </Form>
 
             <footer className="d-flex w-100">

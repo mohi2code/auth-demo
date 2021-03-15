@@ -33,6 +33,12 @@
         * [x] check if password matches.
         * [x] set cookie / jwt
     * [ ] /login screen.
+        * [x] implement screen design.
+        * [x] configure form submition.
+        * [x] client side validation.
+            * [x] handle input onKeyUp.
+            * [x] handle inputs submition
+            * [x] handle ajax errors;
         
 
 * [ ] User can login or register with google.
