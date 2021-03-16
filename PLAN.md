@@ -48,7 +48,7 @@
     * [ ] delete token from client side.
 
 * [ ] User can view profile details.
-    * [ ] GET /api/user/:id.
+    * [x] GET /api/profile.
     * [ ] /user/profile screen
 
 * [ ] User can edit profile details.

@@ -6,6 +6,7 @@ const db    = require('../db/connection');
 const users = db.get('users');
 const bcrypt = require('bcrypt');
 const jwt    = require('jsonwebtoken');
+const { isAuthorized } = require('./middleware');
 
 router.post('/register', asyncHandler(async (req, res) => {
     const validated = await registerSchema.validateAsync(req.body);
@@ -28,16 +29,21 @@ router.post('/login', asyncHandler(async (req, res) => {
         throw new Error('Invalid username or password');
 
     const token = await jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
-        expiresIn: '1s'
+        expiresIn: '1h'
     });
     res.json({ token });
 }));
 
-router.post('/test', asyncHandler(async (req, res) => {
-    const authorization = req.headers.authorization;
-    const token = authorization.split(' ')[1];
-    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-    res.json(decoded);
+router.get('/profile', isAuthorized, asyncHandler(async (req, res) => {
+    const user = await users.findOne({ email: req.user.email });
+    res.json({ ...user, _id: undefined, hashedPassword: undefined });
+}));
+
+router.post('/test', isAuthorized, asyncHandler(async (req, res) => {
+    res.json({
+        message: 'Yep you are in',
+        email: req.user.email
+    });
 }));
 
 module.exports = router;

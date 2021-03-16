@@ -9,6 +9,11 @@ module.exports = (err, req, res, next) => {
             err.status = 401;
             next(err);
             break;
+
+        case 'AuthenticationError':
+            err.status = 403;
+            next(err);
+            break;
     
         default:
             next(err);
