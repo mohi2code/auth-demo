@@ -47,9 +47,9 @@
 * [ ] User can sign out.
     * [ ] delete token from client side.
 
-* [ ] User can view profile details.
+* [x] User can view profile details.
     * [x] GET /api/profile.
-    * [ ] /user/profile screen
+    * [x] /user/profile screen
 
 * [ ] User can edit profile details.
     * [ ] PUT /api/user/:id
