@@ -70,7 +70,7 @@ export default function Profile({ API_URL }) {
                                 <p>Some info maybe visible to other users</p>
                             </Col>
                             <Col xs={8} className="d-flex">
-                                <Button variant="outline-secondary" className="ml-auto px-4">
+                                <Button variant="outline-secondary" className="ml-auto px-4" onClick={e => history.push('/profile/edit')}>
                                     Edit
                                 </Button>
                             </Col>

@@ -53,8 +53,12 @@
 
 * [ ] User can edit profile details.
     * [ ] PUT /api/user/:id
+        * [ ] validate request body.
+        * [ ] update document.
     * [ ] /user/profile/edit
 
 * [ ] User can upload avatar.
     * within PUT /api/user/:id
     * view on /user/profile screen.
+
+* [ ] User can change password.

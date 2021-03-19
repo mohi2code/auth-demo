@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
-const { registerSchema } = require('./schemas');
+const { registerSchema, profileUpdateSchema } = require('./schemas');
 const db    = require('../db/connection');
 const users = db.get('users');
 const bcrypt = require('bcrypt');
@@ -37,6 +37,15 @@ router.post('/login', asyncHandler(async (req, res) => {
 router.get('/profile', isAuthorized, asyncHandler(async (req, res) => {
     const user = await users.findOne({ email: req.user.email });
     res.json({ ...user, _id: undefined, hashedPassword: undefined });
+}));
+
+router.put('/profile', isAuthorized, asyncHandler(async (req, res) => {
+    const validated = await profileUpdateSchema.validateAsync(req.body);
+    const updated = await users.findOneAndUpdate(
+        { email: req.user.email },
+        { $set: {...req.body} }
+    );
+    res.json({ ...updated, _id: undefined, hashedPassword: undefined });
 }));
 
 router.post('/test', isAuthorized, asyncHandler(async (req, res) => {

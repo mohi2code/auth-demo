@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const passwordValidator = require('password-validator');
+const validator = require('validator');
  
 const schema = new passwordValidator();
  
@@ -14,7 +15,8 @@ schema
 
 const registerSchema = Joi.object({
     email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+        .required(),
     password: Joi.string()
         .custom((value, helpers) => {
             if (!schema.validate(value))
@@ -26,6 +28,29 @@ const registerSchema = Joi.object({
 })
     .with('email', 'password');
 
+const profileUpdateSchema = Joi.object({
+    name: Joi.string()
+        .min(3)
+        .max(50),
+    image: Joi.string()
+        .allow(null, '')
+        .custom((value, helpers) => {
+            if (!validator.isURL(value))
+                return helpers.message('image should be a valid url');
+
+            return value;
+        }),
+    email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+    bio: Joi.string()
+        .allow(null, '')
+        .max(500),
+    phone: Joi.string()
+        .min(5)
+        .max(15)
+});
+
 module.exports = {
-    registerSchema
+    registerSchema,
+    profileUpdateSchema
 }    
