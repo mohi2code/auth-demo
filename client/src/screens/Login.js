@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios'; 
 import { isValidEmail, isValidPassword } from '../schemas';
+import Footer from '../components/Footer';
 
 export default function Login({ API_URL }) {
 
@@ -10,6 +11,13 @@ export default function Login({ API_URL }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token)
+        history.push('/profile');
+        
+    }, []);
 
     function submit(e) {
       e.preventDefault();
@@ -25,7 +33,9 @@ export default function Login({ API_URL }) {
         data: JSON.stringify({ email, password })
       })
         .then(response => {
-          console.log(response.data);
+          const token = response.data.token;
+          localStorage.setItem('token', token);
+          history.push('/profile');
         })
         .catch(error => {
           const msg = error.response.data.message;
@@ -80,16 +90,14 @@ export default function Login({ API_URL }) {
                   </div>
                 </Form.Group>
                 <Button variant="primary" type="submit" className="w-100 mb-3">
-                  Start coding now
+                  Login
                 </Button>
                 <p><small>or continue with these social profiles</small></p>
                 <a href="#" className="mb-3"><img src="/Google.svg"/></a>
                 <p><small>Don't have an account ? <Link to="/register">Register</Link></small></p>
             </Form>
 
-            <footer className="d-flex w-100">
-                <p className="mr-auto text-black-50"><small>create by <a href="#">mohi2code</a></small></p>
-            </footer>
+            <Footer></Footer>
           </Col>
         </Row>
       </Container>

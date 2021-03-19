@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Register from './screens/Register';
 import Login from './screens/Login';
+import Profile from './screens/Profile';
 
 function App() {
   const API_URL = 'http://localhost:3000/api'
@@ -19,6 +20,9 @@ function App() {
           </Route>
           <Route path="/login">
             <Login API_URL={API_URL}/>
+          </Route>
+          <Route path="/profile">
+            <Profile API_URL={API_URL}/>
           </Route>
           <Route path="/">
             <Redirect to="/register"/>

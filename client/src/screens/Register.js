@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios'; 
@@ -8,7 +8,15 @@ export default function Register({ API_URL }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const history = useHistory();
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token)
+        history.push('/profile');
+        
+    }, []);
 
     function submit(e) {
       e.preventDefault();

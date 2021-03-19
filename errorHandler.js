@@ -11,6 +11,7 @@ module.exports = (err, req, res, next) => {
             break;
 
         case 'AuthenticationError':
+        case 'JsonWebTokenError':    
             err.status = 403;
             next(err);
             break;
