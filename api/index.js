@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
-const { registerSchema, profileUpdateSchema } = require('./schemas');
+const { registerSchema, profileUpdateSchema, passwordUpdateSchema } = require('./schemas');
 const db    = require('../db/connection');
 const users = db.get('users');
 const bcrypt = require('bcrypt');
@@ -52,6 +52,21 @@ router.put('/profile', isAuthorized, asyncHandler(async (req, res) => {
         { $set: {...req.body} }
     );
     res.json({ ...updated, _id: undefined, hashedPassword: undefined });
+}));
+
+router.put('/profile/password', isAuthorized, asyncHandler(async (req, res) => {
+    const validated = await passwordUpdateSchema.validateAsync(req.body);
+    const user = await users.findOne({ _id: req.user.id });
+    if (!bcrypt.compareSync(validated.oldPassword, user.hashedPassword))
+        throw new Error('Old password incorrect');
+
+    const hashedPassword = bcrypt.hashSync(validated.newPassword, parseInt(process.env.SALT_ROUNDS));
+    const updated = await users.findOneAndUpdate(
+        { _id: req.user.id },
+        { $set: {hashedPassword} }
+    );    
+    res.json({ old: validated.oldPassword, newPass: validated.newPassword });
+    // res.json({ ...updated, _id: undefined, hashedPassword: undefined });
 }));
 
 router.post('/test', isAuthorized, asyncHandler(async (req, res) => {

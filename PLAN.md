@@ -51,12 +51,12 @@
     * [x] GET /api/profile.
     * [x] /user/profile screen
 
-* [ ] User can edit profile details.
+* [x] User can edit profile details.
     * [x] PUT /api/user/:id
         * [x] validate request body.
         * [x] new email already exists ? if updated
         * [x] update document.
-    * [ ] /user/profile/edit
+    * [x] /user/profile/edit
 
 * [ ] User can upload avatar.
     * within PUT /api/user/:id

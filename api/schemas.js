@@ -47,7 +47,7 @@ const profileUpdateSchema = Joi.object({
             return value;
         }),
     email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+        .email({ minDomainSegments: 2 }),
     bio: Joi.string()
         .allow(null, '')
         .max(300)
@@ -64,7 +64,25 @@ const profileUpdateSchema = Joi.object({
         })
 });
 
+const passwordUpdateSchema = Joi.object({
+    oldPassword: Joi.string()
+        .min(8)
+        .max(100)
+        .required(),
+    
+    newPassword: Joi.string()
+            .custom((value, helpers) => {
+                if (!schema.validate(value))
+                    return helpers.message('password must be at least 8 characters containing lower ,uppercase letters and numbers');
+
+                return value;
+            })
+            .required()
+})
+    .with('oldPassword', 'newPassword');
+
 module.exports = {
     registerSchema,
-    profileUpdateSchema
+    profileUpdateSchema,
+    passwordUpdateSchema
 }    

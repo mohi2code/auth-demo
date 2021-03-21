@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import axios from 'axios';
 import { 
+    Modal,
     Button,
     Col,
     Container,
@@ -10,7 +11,7 @@ import {
     Row,
 } from 'react-bootstrap';
 import Footer from '../components/Footer'
-import { isValidBio, isValidEmail, isValidName, isValidPhone } from '../schemas';
+import { isValidBio, isValidEmail, isValidName, isValidPassword, isValidPhone } from '../schemas';
 
 export default function Edit({ location, API_URL }) {
     const history = useHistory();
@@ -22,10 +23,16 @@ export default function Edit({ location, API_URL }) {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [bio, setBio] = useState('');
+    const [password, setPassword] = useState('');
+    const [oldPassword, setOldPassword] = useState('');
     const [nameErrMsg, setNameErrMsg] = useState('');
     const [emailErrMsg, setEmailErrMsg] = useState('');
     const [phoneErrMsg, setPhoneErrMsg] = useState('');
     const [bioErrMsg, setBioErrMsg] = useState('');
+    const [passwordErrMsg, setPasswordErrMsg] = useState('');
+
+    const [emailModalShow, setEmailModalShow] = useState(false);
+    const [passwordModalShow, setPasswordModalShow] = useState(false);
 
     useEffect(() => {
         const tokenLocalStorage = localStorage.getItem('token');
@@ -58,7 +65,7 @@ export default function Edit({ location, API_URL }) {
           })
             .then(response => {
                 const data = response.data;
-                history.push('/push');
+                history.push('/profile');
             })
             .catch(error => {
                 var errorResponse = error.response.data;
@@ -69,7 +76,67 @@ export default function Edit({ location, API_URL }) {
                 }
                 console.log(errorResponse);
             });
+    }
 
+    function changeEmail(e) {
+        axios({
+            method: 'PUT',
+            url: `${API_URL}/profile`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            data: JSON.stringify({ email })
+          })
+            .then(response => {
+                const data = response.data;
+                setEmailModalShow(false);
+            })
+            .catch(error => {
+                var errorResponse = error.response.data;
+                var status = errorResponse.status;
+                if (status == 401 || status == 403) {
+                    localStorage.removeItem('token');
+                    history.push('/login');
+                }
+
+                const msg = errorResponse.message;
+                const alert = document.getElementById('emailModalAlert');
+                alert.classList.remove('d-none');
+                alert.innerText = msg;
+                console.log(msg);
+            });
+    }
+
+    function changePassword(e) {
+        axios({
+            method: 'PUT',
+            url: `${API_URL}/profile/password`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            data: JSON.stringify({ oldPassword, newPassword: password })
+          })
+            .then(response => {
+                const data = response.data;
+                console.log(data);
+                setPasswordModalShow(false);
+            })
+            .catch(error => {
+                var errorResponse = error.response.data;
+                var status = errorResponse.status;
+                if (status == 401 || status == 403) {
+                    localStorage.removeItem('token');
+                    history.push('/login');
+                }
+
+                const msg = errorResponse.message;
+                const alert = document.getElementById('passwordModalAlert');
+                alert.classList.remove('d-none');
+                alert.innerText = msg;
+                console.log(msg);
+            });
     }
 
     function isValidForm() {
@@ -92,6 +159,11 @@ export default function Edit({ location, API_URL }) {
     function validateEmail(e) {
         const { value, error } = isValidEmail(e.target.value);
         showValidation(error, e => setEmailErrMsg(error.message), e.target);
+    }
+
+    function validatePassword(e) {
+        const { value, error } = isValidPassword(e.target.value);
+        showValidation(error, e => setPasswordErrMsg(error.message), e.target);
     }
 
     function validatePhone(e) {
@@ -155,13 +227,10 @@ export default function Edit({ location, API_URL }) {
                     <Row className="m-0 p-0 pb-3 align-items-end">
                         <Col xs={7} md={5}>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onKeyUp={validateEmail} placeholder="Enter your email" disabled/>
-                            <div className="invalid-feedback">
-                                {emailErrMsg}
-                            </div>
+                            <Form.Control type="email" value={email} disabled/>
                         </Col>
                         <Col xs={5} md={3}>
-                            <Button variant="info" className="w-100">Change Email</Button>
+                            <Button onClick={e => setEmailModalShow(true)} variant="outline-info" className="w-100">Change Email</Button>
                         </Col>
                     </Row>
                     <Row className="m-0 p-0 pb-3 align-items-end">
@@ -170,21 +239,92 @@ export default function Edit({ location, API_URL }) {
                             <Form.Control type="text" value="********" disabled/>
                         </Col>
                         <Col xs={5} md={3}>
-                            <Button variant="info" className="w-100">Change Password</Button>
+                            <Button onClick={e => setPasswordModalShow(true)} variant="outline-info" className="w-100">Change Password</Button>
                         </Col>
                     </Row>
 
                     <Row className="m-0 p-0 py-3">
-                        <Col xs={12} md={3}>
-                        <Button variant="primary" type="submit" className="w-100 mb-3">
-                            Save
-                        </Button>
+                        <Col xs={6} md={3}>
+                            <Button variant="primary" type="submit" className="w-100 mb-3">
+                                Save
+                            </Button>
+                        </Col>
+                        <Col xs={6} md={3}>
+                            <Button variant="secondary" type="submit" onClick={e => history.push('/profile')} className="w-100 mb-3">
+                                Cancel
+                            </Button>
                         </Col>
                     </Row>
                 </Form>
 
                 <Footer></Footer>
             </Container>
+
+            <Modal
+                show={emailModalShow}
+                onHide={() => setEmailModalShow(false)}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Change Email
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h4>Are your sure you want to change your email ?</h4>
+                    <div id="emailModalAlert" className="d-none w-100 alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} onKeyUp={validateEmail} placeholder="Enter your email"/>
+                    <div className="invalid-feedback">
+                        {emailErrMsg}
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={changeEmail}>Save</Button>
+                    <Button onClick={e => setEmailModalShow(false)}>Close</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={passwordModalShow}
+                onHide={() => setPasswordModalShow(false)}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Change Password
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h4>Are your sure you want to change your password ?</h4>
+                    <div id="passwordModalAlert" className="d-none w-100 alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <Form.Label>Old Password</Form.Label>
+                    <Form.Control id="oldPassword" className="mb-3" type="password" onChange={e => setOldPassword(e.target.value)} placeholder="Enter your old password"/>
+
+                    <Form.Label>New Password</Form.Label>
+                    <Form.Control id="password" type="password" onChange={e => setPassword(e.target.value)} onKeyUp={validatePassword} placeholder="Enter your new password"/>
+                    <div className="invalid-feedback">
+                        {passwordErrMsg}
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={changePassword}>Save</Button>
+                    <Button onClick={e => setPasswordModalShow(false)}>Close</Button>
+                </Modal.Footer>
+            </Modal>
+
         </section>
     );
 }

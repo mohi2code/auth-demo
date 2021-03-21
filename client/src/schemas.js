@@ -27,7 +27,15 @@ export function isValidEmail(email) {
 }
 
 export function isValidPassword(password) {
-    return passwordSchema.validate(password);
+    return Joi.object({
+        password: Joi.string()
+            .custom((value, helpers) => {
+                if (!passwordSchema.validate(value))
+                    helpers.message('password must be at least 8 characters containing lower ,uppercase letters and numbers')
+                
+                    return value
+            })
+    }).validate({ password });
 }
 
 export function isValidName(name) {
