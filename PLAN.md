@@ -53,8 +53,9 @@
 
 * [ ] User can edit profile details.
     * [ ] PUT /api/user/:id
-        * [ ] validate request body.
-        * [ ] update document.
+        * [x] validate request body.
+        * [ ] new email already exists ? if updated
+        * [x] update document.
     * [ ] /user/profile/edit
 
 * [ ] User can upload avatar.
