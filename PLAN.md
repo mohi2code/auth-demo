@@ -52,9 +52,9 @@
     * [x] /user/profile screen
 
 * [ ] User can edit profile details.
-    * [ ] PUT /api/user/:id
+    * [x] PUT /api/user/:id
         * [x] validate request body.
-        * [ ] new email already exists ? if updated
+        * [x] new email already exists ? if updated
         * [x] update document.
     * [ ] /user/profile/edit
 

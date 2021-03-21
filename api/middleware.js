@@ -21,7 +21,7 @@ const isAuthorized = asyncHandler(async (req, res, next) => {
         );
 
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { email: decoded.email };
+    req.user = { id: decoded.id };
     next();
 });
 

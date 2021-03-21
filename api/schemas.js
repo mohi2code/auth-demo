@@ -31,7 +31,13 @@ const registerSchema = Joi.object({
 const profileUpdateSchema = Joi.object({
     name: Joi.string()
         .min(3)
-        .max(50),
+        .max(30)
+        .custom((value, helpers) => {
+            if (!validator.isAlpha(value))
+                return helpers.message('Name should only contain letters and no spaces')
+
+            return value
+        }),
     image: Joi.string()
         .allow(null, '')
         .custom((value, helpers) => {
@@ -44,10 +50,18 @@ const profileUpdateSchema = Joi.object({
         .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
     bio: Joi.string()
         .allow(null, '')
-        .max(500),
+        .max(300)
+        .custom((value, helpers) => {
+            return validator.blacklist(value, '\\[\\]')
+        }),
     phone: Joi.string()
-        .min(5)
-        .max(15)
+        .allow(null, '')
+        .custom((value, helpers) => {
+            if (!validator.isMobilePhone(value))
+                return helpers.message('Please enter a valid phone number')
+
+            return value
+        })
 });
 
 module.exports = {

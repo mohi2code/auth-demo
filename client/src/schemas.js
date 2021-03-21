@@ -1,5 +1,5 @@
 import validator from 'validator';
-import Joi from 'joi';
+import Joi, { allow } from 'joi';
 import passwordValidator from 'password-validator';
  
 export const passwordSchema = new passwordValidator();
@@ -53,19 +53,18 @@ export function isValidBio(bio) {
             .custom((value, helpers) => {
                 return validator.blacklist(value, '\\[\\]')
             })
-            .required()
     }).validate({ bio })
 }
 
 export function isValidPhone(phone) {
     return Joi.object({
         phone: Joi.string()
+            .allow(null, '')
             .custom((value, helpers) => {
                 if (!validator.isMobilePhone(value))
                     return helpers.message('Please enter a valid phone number')
 
                 return value
             })
-            .required()
     }).validate({ phone })
 }

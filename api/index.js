@@ -28,21 +28,27 @@ router.post('/login', asyncHandler(async (req, res) => {
     if (!user || !bcrypt.compareSync(validated.password, user.hashedPassword)) 
         throw new Error('Invalid username or password');
 
-    const token = await jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: '1h'
     });
     res.json({ token });
 }));
 
 router.get('/profile', isAuthorized, asyncHandler(async (req, res) => {
-    const user = await users.findOne({ email: req.user.email });
+    const user = await users.findOne({ _id: req.user.id });
     res.json({ ...user, _id: undefined, hashedPassword: undefined });
 }));
 
 router.put('/profile', isAuthorized, asyncHandler(async (req, res) => {
     const validated = await profileUpdateSchema.validateAsync(req.body);
+    if (validated.email) {
+        const user = await users.findOne({ email: validated.email });
+        if (user && user._id != req.user.id)
+            throw new Error('Email already in use');
+    }
+
     const updated = await users.findOneAndUpdate(
-        { email: req.user.email },
+        { _id: req.user.id },
         { $set: {...req.body} }
     );
     res.json({ ...updated, _id: undefined, hashedPassword: undefined });
