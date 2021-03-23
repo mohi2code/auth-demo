@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import Footer from '../components/Footer'
 import { isValidBio, isValidEmail, isValidName, isValidPassword, isValidPhone } from '../schemas';
+import NavigationBar from '../components/NavigationBar';
 
 export default function Edit({ location, API_URL }) {
     const history = useHistory();
@@ -230,11 +231,7 @@ export default function Edit({ location, API_URL }) {
 
     return (
         <section className="w-100 h-100">
-            <Navbar>
-                <Navbar.Brand href="#home">
-                <img alt="Logo" src="/devchallenges.svg" width="130" height="30" className="d-inline-block align-top"/>
-                </Navbar.Brand>
-            </Navbar>
+            <NavigationBar />
 
             <Container className="w-100 h-100 p-0 p-sm-5"> 
                 <div className="pb-3">
@@ -379,26 +376,6 @@ export default function Edit({ location, API_URL }) {
                     <Button onClick={e => setPasswordModalShow(false)}>Close</Button>
                 </Modal.Footer>
             </Modal>
-
-            {/* <Modal
-                show={imageModalShow}
-                onHide={() => setImageModalShow(false)}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Upload Image
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="success" onClick={changeImage}>Save</Button>
-                    <Button onClick={e => setImageModalShow(false)}>Close</Button>
-                </Modal.Footer>
-            </Modal> */}
 
         </section>
     );

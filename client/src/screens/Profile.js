@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import axios from 'axios';
 import { Navbar, Button, Col, Container, Row } from 'react-bootstrap';
 import Footer from '../components/Footer';
+import NavigationBar from "../components/NavigationBar";
 
 export default function Profile({ API_URL }) {
 
@@ -50,11 +51,7 @@ export default function Profile({ API_URL }) {
 
     return (
         <section className="w-100 h-100">
-            <Navbar>
-                <Navbar.Brand href="#home">
-                <img alt="Logo" src="/devchallenges.svg" width="130" height="30" className="d-inline-block align-top"/>
-                </Navbar.Brand>
-            </Navbar>
+            <NavigationBar />
 
             <Container className="w-100 h-100 p-0 p-sm-5">
                 <div className="pb-3">
