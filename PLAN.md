@@ -58,12 +58,12 @@
         * [x] update document.
     * [x] /user/profile/edit
 
-* [ ] User can upload avatar.
+* [x] User can upload avatar.
     * [x] PUT /profile/image.
         * [x] get image file from req.body (Base64UrlEncoded).
         * [x] upload imgage file to a cloud storage server.
         * [x] output image file URL. 
-    * view on /user/profile screen.
+    * [x] view on /user/profile screen.
 
 * [x] User can change password.
     * [x] PUT /profile/password
