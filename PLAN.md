@@ -44,8 +44,8 @@
 * [ ] User can login or register with google.
     * [ ] Passport.js
 
-* [ ] User can sign out.
-    * [ ] delete token from client side.
+* [x] User can logout.
+    * [x] delete token from client side.
 
 * [x] User can view profile details.
     * [x] GET /api/profile.
