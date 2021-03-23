@@ -50,6 +50,59 @@ $theme-colors: (
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
 
+.profile-border {
+    border: 3px solid #c9c9c9;
+    border-radius: 50%
+}
+
+.profile-container {
+    position: relative;
+    width: 170px;
+    height: 170px;
+
+    .profile-image {
+        opacity: 1;
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: .5s ease;
+        backface-visibility: hidden;
+    }
+
+    .profile-middle {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .profile-text {
+        background-color: #393B43;
+        color: white;
+        font-size: 16px;
+        padding: 6px 16px;
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        .profile-image {
+            opacity: 0.3;
+        }
+
+        .profile-middle {
+            opacity: 1;
+        }
+    }
+      
+      
+}
+
+
 @import "~bootstrap/scss/bootstrap";
 
 

@@ -1,12 +1,20 @@
 const express = require('express');
+const cloudinary = require('cloudinary');
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
-const { registerSchema, profileUpdateSchema, passwordUpdateSchema } = require('./schemas');
 const db    = require('../db/connection');
 const users = db.get('users');
 const bcrypt = require('bcrypt');
 const jwt    = require('jsonwebtoken');
 const { isAuthorized } = require('./middleware');
+const {
+    registerSchema,
+    profileUpdateSchema,
+    passwordUpdateSchema
+} = require('./schemas');
+cloudinary.config({
+    URL: process.env.CLOUDINARY_URL
+})
 
 router.post('/register', asyncHandler(async (req, res) => {
     const validated = await registerSchema.validateAsync(req.body);
@@ -67,6 +75,24 @@ router.put('/profile/password', isAuthorized, asyncHandler(async (req, res) => {
     );    
     res.json({ old: validated.oldPassword, newPass: validated.newPassword });
     // res.json({ ...updated, _id: undefined, hashedPassword: undefined });
+}));
+
+router.post('/profile/image', isAuthorized, asyncHandler(async (req, res) => {
+    const file = req.body.imageUrlEncoded;
+    const result = await cloudinary.v2.uploader.upload(file, { folder: 'auth-demo' });
+    if (result) {
+        const updated = await users.findOneAndUpdate(
+            { _id: req.user.id },
+            { $set: { avatar: result.url } }
+        );
+        
+        if (updated)
+            res.json({ imageURL: result.url });
+
+        console.log(updated);
+    } else {
+        res.end();
+    }
 }));
 
 router.post('/test', isAuthorized, asyncHandler(async (req, res) => {

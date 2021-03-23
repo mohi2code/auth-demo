@@ -62,6 +62,10 @@ export default function Profile({ API_URL }) {
                     <p className="text-center">Basic info like your name and photo</p>
                 </div>
 
+                <div className="w-100 d-flex my-4">
+                    <img src={image} width="170px" height="170px" className="mx-auto profile-border"/>
+                </div>
+
                 <ul className="list-group">
                     <li className="list-group-item">
                         <Row className="align-items-center">
@@ -70,21 +74,9 @@ export default function Profile({ API_URL }) {
                                 <p>Some info maybe visible to other users</p>
                             </Col>
                             <Col xs={8} className="d-flex">
-                                <Button variant="outline-secondary" className="ml-auto px-4" onClick={e => history.push('/profile/edit', { name, bio, email, phone })}>
+                                <Button variant="outline-secondary" className="ml-auto px-4" onClick={e => history.push('/profile/edit', { name, image, bio, email, phone })}>
                                     Edit
                                 </Button>
-                            </Col>
-                        </Row>
-                    </li>
-                    <li className="list-group-item">
-                        <Row className="align-items-center">
-                            <Col xs={4}>
-                                <p>Photo</p>
-                            </Col>
-                            <Col xs={8}>
-                                {
-                                    image ? <img alt="profile_photo" src={image}/> : <img />
-                                }
                             </Col>
                         </Row>
                     </li>

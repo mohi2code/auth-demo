@@ -20,6 +20,8 @@ export default function Edit({ location, API_URL }) {
     const [token, setToken] = useState('');
 
     const [name, setName] = useState('');
+    const [imageURL, setImageURL] = useState();
+    const [imageFile, setImageFile] = useState({});
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [bio, setBio] = useState('');
@@ -33,6 +35,7 @@ export default function Edit({ location, API_URL }) {
 
     const [emailModalShow, setEmailModalShow] = useState(false);
     const [passwordModalShow, setPasswordModalShow] = useState(false);
+    const [imageModalShow, setImageModalShow] = useState(false);
 
     useEffect(() => {
         const tokenLocalStorage = localStorage.getItem('token');
@@ -42,6 +45,7 @@ export default function Edit({ location, API_URL }) {
         setToken(tokenLocalStorage);
 
         setName(data.name);
+        setImageURL(data.image);
         setEmail(data.email);
         setPhone(data.phone);
         setBio(data.bio);
@@ -76,6 +80,7 @@ export default function Edit({ location, API_URL }) {
                 }
                 console.log(errorResponse);
             });
+
     }
 
     function changeEmail(e) {
@@ -139,6 +144,34 @@ export default function Edit({ location, API_URL }) {
             });
     }
 
+    function changeImage(imageUrlEncoded) {
+        axios({
+            method: 'POST',
+            url: `${API_URL}/profile/image`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            data: JSON.stringify({ imageUrlEncoded })
+          })
+            .then(response => {
+                const data = response.data;
+                setImageURL(data.imageURL)
+                console.log(data);
+            })
+            .catch(error => {
+                var errorResponse = error.response.data;
+                var status = errorResponse.status;
+                if (status == 401 || status == 403) {
+                    localStorage.removeItem('token');
+                    history.push('/login');
+                }
+
+                const msg = errorResponse.message;
+                console.log(msg);
+            });
+    }
+
     function isValidForm() {
         return ( isValidName(name).error ||
         isValidEmail(email).error ||
@@ -182,6 +215,18 @@ export default function Edit({ location, API_URL }) {
         }
     }
 
+    function onImageFileChange(e) {
+        const file = e.target.files[0];   
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                changeImage(reader.result)
+            }
+            reader.onerror = error => console.log(error)
+        }
+    }
 
     return (
         <section className="w-100 h-100">
@@ -194,6 +239,16 @@ export default function Edit({ location, API_URL }) {
             <Container className="w-100 h-100 p-0 p-sm-5"> 
                 <div className="pb-3">
                     <h2 className="text-left">Change Info</h2>
+                </div>
+
+                <div className="w-100 d-flex my-4">
+                    <Form.Control type="file" accept="image/*" onChange={onImageFileChange} id="image-file" className="d-none"/>
+                    <div onClick={e => document.getElementById('image-file').click()} className="profile-container profile-border mx-md-0 mr-md-auto mx-auto">
+                        <img src={imageURL} className="profile-image"/>
+                        <div className="profile-middle">
+                            <div className="profile-text">Edit</div>
+                        </div>
+                    </div>
                 </div>
 
                 <Form onSubmit={submit} className="w-100 mb-3" noValidate>
@@ -324,6 +379,26 @@ export default function Edit({ location, API_URL }) {
                     <Button onClick={e => setPasswordModalShow(false)}>Close</Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* <Modal
+                show={imageModalShow}
+                onHide={() => setImageModalShow(false)}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Upload Image
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={changeImage}>Save</Button>
+                    <Button onClick={e => setImageModalShow(false)}>Close</Button>
+                </Modal.Footer>
+            </Modal> */}
 
         </section>
     );
