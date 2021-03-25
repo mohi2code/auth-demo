@@ -11,7 +11,7 @@ import Profile from './screens/Profile';
 import Edit from './screens/Edit';
 
 function App() {
-  const API_URL = 'http://localhost:3000/api'
+  const API_URL = '/api'
 
   return (
     <Router>

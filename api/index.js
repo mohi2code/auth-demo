@@ -1,9 +1,9 @@
 const express = require('express');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth2');
 const cloudinary = require('cloudinary');
 const asyncHandler = require('express-async-handler');
-const router = express.Router();
 const db    = require('../db/connection');
-const users = db.get('users');
 const bcrypt = require('bcrypt');
 const jwt    = require('jsonwebtoken');
 const { isAuthorized } = require('./middleware');
@@ -12,9 +12,49 @@ const {
     profileUpdateSchema,
     passwordUpdateSchema
 } = require('./schemas');
+
+const router = express.Router();
+const users = db.get('users');
 cloudinary.config({
     URL: process.env.CLOUDINARY_URL
-})
+});
+passport.use(new GoogleStrategy({
+    clientID: '1053675835113-528ojs68fsqnptf7jn5heu6r7bfb5p2s.apps.googleusercontent.com',
+    clientSecret: 'UKNN8y4H5YcnDbhjtPOrLt04',
+    callbackURL: process.env.NODE_ENV == "production" ? "https://auth-local-oauth.herokuapp.com/auth/google/callback" : "/api/google/callback"
+},
+    async function (accessToken, refreshToken, profile, done) {
+        try {
+            const { email, given_name } = profile;
+            const user = await users.findOne({ email });
+            if (!user) {
+                const doc = await users.insert({ email, name: given_name });
+                return done(null, doc);
+            }
+            return done(null, user);
+        } catch (error) {
+            return done(error);
+        }
+    }
+));
+
+router.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login', session: false }),
+    async (req, res) => {
+        const token = await jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
+            expiresIn: '1h'
+        });
+        res.redirect(`/?token=${token}`)
+    }
+);
+
+router.get('/google',
+    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'email'] }),
+    (err, user, next) => {
+        if (err)
+            next(err)
+    }
+);
 
 router.post('/register', asyncHandler(async (req, res) => {
     const validated = await registerSchema.validateAsync(req.body);

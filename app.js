@@ -19,9 +19,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.json({
-    message: 'Hi there..'
-  });
+  if (process.env.NODE_ENV == 'development') {
+    res.redirect(`http://localhost:3001/login?token=${req.query.token}`);
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.use('/api', api);

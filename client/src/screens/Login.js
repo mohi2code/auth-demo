@@ -4,6 +4,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios'; 
 import { isValidEmail, isValidPassword } from '../schemas';
 import Footer from '../components/Footer';
+import GoogleOAuth from '../components/GoogleOAuth';
 
 export default function Login({ API_URL }) {
 
@@ -14,8 +15,17 @@ export default function Login({ API_URL }) {
 
     useEffect(() => {
       const token = localStorage.getItem('token');
-      if (token)
+      if (token) {
         history.push('/profile');
+      } else {
+        var url = window.location;
+        var windowToken = new URLSearchParams(url.search).get('token');
+        if (windowToken) {
+          localStorage.setItem('token', windowToken);
+          history.push('/profile');
+        }
+
+      }
         
     }, []);
 
@@ -93,7 +103,7 @@ export default function Login({ API_URL }) {
                   Login
                 </Button>
                 <p><small>or continue with these social profiles</small></p>
-                <a href="#" className="mb-3"><img src="/Google.svg"/></a>
+                <GoogleOAuth API_URL={API_URL} />
                 <p><small>Don't have an account ? <Link to="/register">Register</Link></small></p>
             </Form>
 

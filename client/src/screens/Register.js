@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios'; 
 import { isValidEmail, isValidPassword } from '../schemas';
+import GoogleOAuth from '../components/GoogleOAuth';
 
 export default function Register({ API_URL }) {
 
@@ -92,7 +93,7 @@ export default function Register({ API_URL }) {
                   Start coding now
                 </Button>
                 <p><small>or continue with these social profiles</small></p>
-                <a href="#" className="mb-3"><img src="/Google.svg"/></a>
+                <GoogleOAuth API_URL={API_URL} />
                 <p><small>Already a member ? <Link to="/login">Login</Link></small></p>
             </Form>
 

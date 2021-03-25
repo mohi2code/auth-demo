@@ -41,8 +41,8 @@
             * [x] handle ajax errors;
         
 
-* [ ] User can login or register with google.
-    * [ ] Passport.js
+* [x] User can login or register with google.
+    * [x] Passport.js
 
 * [x] User can logout.
     * [x] delete token from client side.
